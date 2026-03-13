@@ -8,15 +8,28 @@ user_model = api.model("User", {
     "first_name": fields.String(required=True),
     "last_name": fields.String(required=True),
     "email": fields.String(required=True),
+    "is_admin": fields.Boolean(required=False),
+    "created_at": fields.String(readonly=True),
+    "updated_at": fields.String(readonly=True),
 })
 
 user_create_model = api.model("UserCreate", {
     "first_name": fields.String(required=True),
     "last_name": fields.String(required=True),
     "email": fields.String(required=True),
+    "password": fields.String(required=True),
+    "is_admin": fields.Boolean(required=False),
 })
 
-# Parser pour les query params
+user_update_model = api.model("UserUpdate", {
+    "first_name": fields.String(required=False),
+    "last_name": fields.String(required=False),
+    "email": fields.String(required=False),
+    "password": fields.String(required=False),
+    "is_admin": fields.Boolean(required=False),
+})
+
+# Parser for query params
 user_query_parser = api.parser()
 user_query_parser.add_argument(
     "email",
@@ -61,16 +74,21 @@ class UserDetail(Resource):
     def get(self, user_id):
         """Get a user by id"""
         try:
-            return facade.get_user(user_id)
+            user = facade.get_user(user_id)
+            if not user:
+                api.abort(404, "User not found")
+            return user
         except ValueError as e:
             api.abort(404, str(e))
 
+    @api.expect(user_update_model, validate=True)
+    @api.marshal_with(user_model)
     def put(self, user_id):
-            """Update a user"""
-            try:
-                updated = facade.update_user(user_id, api.payload)
-                if not updated:
-                    api.abort(404, "User not found")
-                return updated, 200
-            except (ValueError, TypeError) as e:
-                api.abort(400, str(e))
+        """Update a user"""
+        try:
+            updated = facade.update_user(user_id, api.payload)
+            if not updated:
+                api.abort(404, "User not found")
+            return updated, 200
+        except (ValueError, TypeError) as e:
+            api.abort(400, str(e))

@@ -14,15 +14,16 @@ class HBnBFacade:
         email = user_data.get("email")
         first_name = user_data.get("first_name", "").strip()
         last_name = user_data.get("last_name", "").strip()
+        password = user_data.get("password")
 
         if not email:
             raise ValueError("Email is required")
-        if not first_name and not last_name:
-            raise ValueError("First name and last name cannot both be empty")
         if not first_name:
             raise ValueError("First name cannot be empty")
         if not last_name:
             raise ValueError("Last name cannot be empty")
+        if not password:
+            raise ValueError("Password is required")
 
         for user in self.user_repo.get_all():
             if user.email == email:
@@ -35,7 +36,10 @@ class HBnBFacade:
             "id": user.id,
             "first_name": user.first_name,
             "last_name": user.last_name,
-            "email": user.email
+            "email": user.email,
+            "is_admin": user.is_admin,
+            "created_at": user.created_at.isoformat(),
+            "updated_at": user.updated_at.isoformat()
         }
 
 
@@ -48,20 +52,28 @@ class HBnBFacade:
             "id": user.id,
             "first_name": user.first_name,
             "last_name": user.last_name,
-            "email": user.email
+            "email": user.email,
+            "is_admin": user.is_admin,
+            "created_at": user.created_at.isoformat(),
+            "updated_at": user.updated_at.isoformat()
         }
 
+
     def get_all_users(self):
-        """Retourne tous les users sous forme de liste de dicts"""
+        """Return all users as list of dictionaries"""
         return [
             {
                 "id": u.id,
                 "first_name": u.first_name,
                 "last_name": u.last_name,
-                "email": u.email
+                "email": u.email,
+                "is_admin": u.is_admin,
+                "created_at": u.created_at.isoformat(),
+                "updated_at": u.updated_at.isoformat()
             }
             for u in self.user_repo.get_all()
         ]
+
 
     def get_user_by_email(self, email):
         for user in self.user_repo.get_all():
@@ -70,11 +82,15 @@ class HBnBFacade:
                     "id": user.id,
                     "first_name": user.first_name,
                     "last_name": user.last_name,
-                    "email": user.email
+                    "email": user.email,
+                    "is_admin": user.is_admin,
+                    "created_at": user.created_at.isoformat(),
+                    "updated_at": user.updated_at.isoformat()
                 }
 
         return None
-    
+
+
     def update_user(self, user_id, data):
         user = self.user_repo.get(user_id)
         if not user:
@@ -92,7 +108,10 @@ class HBnBFacade:
             "id": user.id,
             "first_name": user.first_name,
             "last_name": user.last_name,
-            "email": user.email
+            "email": user.email,
+            "is_admin": user.is_admin,
+            "created_at": user.created_at.isoformat(),
+            "updated_at": user.updated_at.isoformat()
         }
 
     # Place Management Methods
