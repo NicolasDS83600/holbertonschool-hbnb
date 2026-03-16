@@ -81,3 +81,13 @@ class SQLAlchemyRepository(Repository):
 
     def get_by_attribute(self, attr_name, attr_value):
         return self.model.query.filter_by(**{attr_name: attr_value}).first()
+
+class UserRepository(SQLAlchemyRepository):
+    """User-specific repository with email lookup."""
+
+    def __init__(self):
+        from app.models.user import User
+        super().__init__(User)
+
+    def get_user_by_email(self, email: str):
+        return self.model.query.filter_by(email=email).first()

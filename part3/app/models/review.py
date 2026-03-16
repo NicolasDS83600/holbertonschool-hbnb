@@ -1,15 +1,24 @@
+from app import db
 from .base import BaseModel
-from .user import User
-from .place import Place
 
 
 class Review(BaseModel):
-    def __init__(self, text: str, rating: int, place: Place, user: User):
+    __tablename__ = 'reviews'
+
+    text    = db.Column(db.Text, nullable=False)
+    rating  = db.Column(db.Integer, nullable=False)
+    user_id  = db.Column(db.String(36), db.ForeignKey('users.id'),  nullable=False)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
+
+    def __init__(self, text: str, rating: int, place, user):
         super().__init__()
-        self.text = self._validate_text(text)
-        self.rating = self._validate_rating(rating)
-        self.place = self._validate_place(place)
-        self.user = self._validate_user(user)
+        self.text     = self._validate_text(text)
+        self.rating   = self._validate_rating(rating)
+        self.place_id = place.id
+        self.user_id  = user.id
+
+        self._place = place
+        self._user  = user
 
     @staticmethod
     def _validate_text(value: str) -> str:
@@ -25,17 +34,13 @@ class Review(BaseModel):
             raise ValueError("rating must be between 1 and 5")
         return value
 
-    @staticmethod
-    def _validate_place(place: Place) -> Place:
-        if not isinstance(place, Place):
-            raise ValueError("place must be a Place")
-        return place
+    @property
+    def place(self):
+        return self._place
 
-    @staticmethod
-    def _validate_user(user: User) -> User:
-        if not isinstance(user, User):
-            raise ValueError("user must be a User")
-        return user
+    @property
+    def user(self):
+        return self._user
 
     def update(self, data: dict):
         if "text" in data:

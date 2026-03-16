@@ -1,9 +1,17 @@
+from app import db
 from .base import BaseModel
-from .user import User
-from .amenity import Amenity
 
 
 class Place(BaseModel):
+    __tablename__ = 'places'
+
+    title       = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True, default="")
+    price       = db.Column(db.Float, nullable=False)
+    latitude    = db.Column(db.Float, nullable=False)
+    longitude   = db.Column(db.Float, nullable=False)
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+
     def __init__(
         self,
         title: str,
@@ -11,19 +19,17 @@ class Place(BaseModel):
         price: float,
         latitude: float,
         longitude: float,
-        owner: User,
+        owner_id: str,
     ):
         super().__init__()
-        self.title = self._validate_title(title)
+        self.title       = self._validate_title(title)
         self.description = description or ""
-        self.price = self._validate_price(price)
-        self.latitude = self._validate_latitude(latitude)
-        self.longitude = self._validate_longitude(longitude)
-        self.owner = self._validate_owner(owner)
+        self.price       = self._validate_price(price)
+        self.latitude    = self._validate_latitude(latitude)
+        self.longitude   = self._validate_longitude(longitude)
+        self.owner_id    = owner_id
 
-        # Relationships
-        self.reviews = []     # List[Review]
-        self.amenities = []   # List[Amenity]
+        self._amenities = []
 
     @staticmethod
     def _validate_title(value: str) -> str:
@@ -35,17 +41,16 @@ class Place(BaseModel):
         return value
 
     @staticmethod
-    def _validate_price(value: float) -> float:
+    def _validate_price(value) -> float:
         if not isinstance(value, (int, float)):
             raise ValueError("price must be a number")
         value = float(value)
-        # Task doc: positive value => strictly > 0
         if value <= 0:
             raise ValueError("price must be a positive value")
         return value
 
     @staticmethod
-    def _validate_latitude(value: float) -> float:
+    def _validate_latitude(value) -> float:
         if not isinstance(value, (int, float)):
             raise ValueError("latitude must be a number")
         value = float(value)
@@ -54,7 +59,7 @@ class Place(BaseModel):
         return value
 
     @staticmethod
-    def _validate_longitude(value: float) -> float:
+    def _validate_longitude(value) -> float:
         if not isinstance(value, (int, float)):
             raise ValueError("longitude must be a number")
         value = float(value)
@@ -62,22 +67,18 @@ class Place(BaseModel):
             raise ValueError("longitude must be between -180 and 180")
         return value
 
-    @staticmethod
-    def _validate_owner(owner: User) -> User:
-        if not isinstance(owner, User):
-            raise ValueError("owner must be a User")
-        return owner
+    @property
+    def amenities(self):
+        return self._amenities
 
-    def add_amenity(self, amenity: Amenity):
-        if not isinstance(amenity, Amenity):
-            raise ValueError("amenity must be an Amenity")
+    @amenities.setter
+    def amenities(self, value):
+        self._amenities = value
 
-        # Avoid duplicates by id
-        if any(a.id == amenity.id for a in self.amenities):
+    def add_amenity(self, amenity):
+        if any(a.id == amenity.id for a in self._amenities):
             return
-
-        self.amenities.append(amenity)
-        self.save()
+        self._amenities.append(amenity)
 
     def update(self, data: dict):
         if "title" in data:
@@ -90,7 +91,4 @@ class Place(BaseModel):
             self.latitude = self._validate_latitude(data["latitude"])
         if "longitude" in data:
             self.longitude = self._validate_longitude(data["longitude"])
-        if "owner" in data:
-            self.owner = self._validate_owner(data["owner"])
-
         self.save()
