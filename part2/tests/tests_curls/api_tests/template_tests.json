@@ -1,0 +1,75 @@
+{
+  "base_url": "https://jsonplaceholder.typicode.com",
+  "output_json": "rapport.json",
+  "tests": [
+    {
+      "name": "GET liste des posts",
+      "method": "GET",
+      "url": "/posts",
+      "expect": {
+        "status": 200,
+        "body_contains": [
+          "userId"
+        ],
+        "max_ms": 3000
+      }
+    },
+    {
+      "name": "GET post par ID",
+      "method": "GET",
+      "url": "/posts/1",
+      "expect": {
+        "status": 200,
+        "body_contains": [
+          "id",
+          "title"
+        ],
+        "show_response": true
+      }
+    },
+    {
+      "name": "POST créer un post",
+      "method": "POST",
+      "url": "/posts",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "Mon titre",
+        "body": "Contenu du post",
+        "userId": 1
+      },
+      "expect": {
+        "status": 201,
+        "body_contains": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "PUT modifier un post",
+      "method": "PUT",
+      "url": "/posts/1",
+      "body": {
+        "id": 1,
+        "title": "Titre modifié",
+        "body": "Nouveau contenu",
+        "userId": 1
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": [
+          "Titre modifié"
+        ]
+      }
+    },
+    {
+      "name": "DELETE supprimer un post",
+      "method": "DELETE",
+      "url": "/posts/1",
+      "expect": {
+        "status": 200
+      }
+    }
+  ]
+}
