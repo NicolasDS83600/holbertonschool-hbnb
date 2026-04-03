@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB – List of Places</title>
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bubbles-layer-2" aria-hidden="true"></div>
+    <div class="bubbles-layer-3" aria-hidden="true"></div>
+    <header>
+        <a href="index.html"><img src="images/logo.png" class="logo" alt="HBnB logo"></a>
+        <nav>
+            <a href="index.html">Home</a>
+            <span id="user-info" class="user-info" style="display:none;"></span>
+            <a href="index.html?mode=client" id="btn-mode-switch" class="btn-mode-switch" style="display:none;">&#128100; Client view</a>
+            <a href="login.html" id="login-link" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="admin-panel" style="display:none;"></div>
+        <div id="filter">
+            <label for="price-filter">Max Price:</label>
+            <select id="price-filter"></select>
+        </div>
+        <div id="places-list"></div>
+    </main>
+
+    <footer><p>&copy; 2024 HBnB. All rights reserved.</p></footer>
+
+    <!-- Templates -->
+
+    <template id="tpl-place-card">
+        <div class="place-card">
+            <h3 data-field="title"></h3>
+            <p data-field="price"></p>
+            <a data-field="link" class="details-button">View Details</a>
+        </div>
+    </template>
+
+    <template id="tpl-admin-panel">
+        <div class="admin-panel-header">
+            <h2 class="admin-panel-title">&#9881;&#65039; Admin Panel</h2>
+        </div>
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="users">Users</button>
+            <button class="tab-btn" data-tab="amenities">Amenities</button>
+            <button class="tab-btn" data-tab="places">Places</button>
+        </div>
+
+        <!-- Users tab -->
+        <div id="tab-users" class="tab-content active">
+            <div class="admin-form-card">
+                <h3>Create a user</h3>
+                <div class="form-field-row">
+                    <div class="form-field">
+                        <label for="u-fname">First name</label>
+                        <input id="u-fname" type="text">
+                    </div>
+                    <div class="form-field">
+                        <label for="u-lname">Last name</label>
+                        <input id="u-lname" type="text">
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="u-email">Email</label>
+                    <input id="u-email" type="email" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label for="u-password">Password</label>
+                    <input id="u-password" type="password" autocomplete="new-password">
+                </div>
+                <div class="form-field-checkbox">
+                    <input id="u-admin" type="checkbox">
+                    <label for="u-admin">Grant admin privileges</label>
+                </div>
+                <button class="btn-submit-form" id="btn-create-user">Create user</button>
+            </div>
+            <div class="admin-list-panel">
+                <h3>Existing users</h3>
+                <div class="admin-list-scroll" id="users-list">
+                    <p class="admin-list-empty">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amenities tab -->
+        <div id="tab-amenities" class="tab-content">
+            <div class="admin-form-card">
+                <h3>Create an amenity</h3>
+                <div class="form-field">
+                    <label for="a-name">Amenity name</label>
+                    <input id="a-name" type="text" placeholder="e.g. Wi-Fi, Pool, Parking...">
+                </div>
+                <button class="btn-submit-form" id="btn-create-amenity">Create amenity</button>
+            </div>
+            <div class="admin-list-panel">
+                <h3>Existing amenities</h3>
+                <div class="admin-list-scroll" id="amenities-list">
+                    <p class="admin-list-empty">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Places tab -->
+        <div id="tab-places" class="tab-content">
+            <div class="admin-form-card">
+                <h3>Create a place</h3>
+                <div class="form-field">
+                    <label for="p-title">Title</label>
+                    <input id="p-title" type="text">
+                </div>
+                <div class="form-field">
+                    <label for="p-desc">Description</label>
+                    <textarea id="p-desc"></textarea>
+                </div>
+                <div class="form-field">
+                    <label for="p-price">Price per night ($)</label>
+                    <input id="p-price" type="number" min="0">
+                </div>
+                <div class="form-field-row">
+                    <div class="form-field">
+                        <label for="p-lat">Latitude</label>
+                        <input id="p-lat" type="number" step="any">
+                        <span class="field-hint">Between -90 and 90</span>
+                    </div>
+                    <div class="form-field">
+                        <label for="p-lng">Longitude</label>
+                        <input id="p-lng" type="number" step="any">
+                        <span class="field-hint">Between -180 and 180</span>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Amenities</label>
+                    <div class="amenity-checklist" id="p-amenities-list">
+                        <p class="admin-list-empty" style="padding:0.75rem;">Loading amenities...</p>
+                    </div>
+                </div>
+                <button class="btn-submit-form" id="btn-create-place">Create place (owner = you)</button>
+            </div>
+            <div class="admin-list-panel">
+                <h3>Existing places</h3>
+                <div class="admin-list-scroll" id="places-list-admin">
+                    <p class="admin-list-empty">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-user-item">
+        <div class="admin-item">
+            <div class="admin-item-info">
+                <span class="admin-item-name" data-field="name"></span>
+                <span class="admin-item-sub" data-field="email"></span>
+            </div>
+            <div class="admin-item-actions">
+                <span data-field="badge"></span>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-amenity-item">
+        <div class="admin-item">
+            <div class="admin-item-info">
+                <span class="admin-item-name" data-field="name"></span>
+            </div>
+            <div class="admin-item-actions">
+                <button class="btn-action btn-action-delete">Delete</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-place-item">
+        <div class="admin-item">
+            <div class="admin-item-info">
+                <span class="admin-item-name" data-field="title"></span>
+                <span class="admin-item-sub" data-field="price"></span>
+            </div>
+            <div class="admin-item-actions">
+                <a class="btn-action btn-action-view" data-field="link">View</a>
+            </div>
+        </div>
+    </template>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
