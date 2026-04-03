@@ -216,7 +216,17 @@ class HBnBFacade:
                 "email": owner.email
             } if owner else None,
             "owner_id": place.owner_id,
-            "amenities": [amenity.id for amenity in place.amenities]
+            "amenities": [{"id": a.id, "name": a.name} for a in place.amenities],
+            "reviews": [
+                {
+                    "id": r.id,
+                    "text": r.text,
+                    "rating": r.rating,
+                    "user_id": r.user_id,
+                    "user_name": (lambda u: f"{u.first_name} {u.last_name}" if u else r.user_id)(self.user_repo.get(r.user_id))
+                }
+                for r in place.reviews
+            ]
         }
  
     def get_all_places(self):
@@ -224,6 +234,7 @@ class HBnBFacade:
             {
                 "id": place.id,
                 "title": place.title,
+                "price": place.price,
                 "latitude": place.latitude,
                 "longitude": place.longitude,
                 "owner_id": place.owner_id

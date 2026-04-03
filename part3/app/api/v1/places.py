@@ -16,6 +16,14 @@ user_model = api.model('PlaceUser', {
     'email': fields.String(description='Email of the owner')
 })
  
+review_model = api.model('PlaceReview', {
+    'id': fields.String(description='Review ID'),
+    'text': fields.String(description='Review text'),
+    'rating': fields.Integer(description='Rating (1-5)'),
+    'user_id': fields.String(description='User ID'),
+    'user_name': fields.String(description='Full name of the reviewer')
+})
+
 place_response_model = api.model('PlaceResponse', {
     'id': fields.String(readonly=True, description='Place ID'),
     'title': fields.String(required=True, description='Title of the place'),
@@ -24,9 +32,20 @@ place_response_model = api.model('PlaceResponse', {
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
     'owner_id': fields.String(description='ID of the owner'),
-    'amenities': fields.List(fields.String, description="List of amenities IDs")
+    'owner': fields.Nested(user_model, description='Owner details', allow_null=True),
+    'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
+    'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
  
+place_list_model = api.model('PlaceList', {
+    'id': fields.String(readonly=True, description='Place ID'),
+    'title': fields.String(description='Title of the place'),
+    'price': fields.Float(description='Price per night'),
+    'latitude': fields.Float(description='Latitude'),
+    'longitude': fields.Float(description='Longitude'),
+    'owner_id': fields.String(description='ID of the owner'),
+})
+
 place_create_model = api.model('PlaceCreate', {
     'title': fields.String(required=True, description='Title of the place'),
     'description': fields.String(description='Description of the place'),
@@ -65,7 +84,7 @@ class PlaceList(Resource):
         except ValueError as e:
             api.abort(400, str(e))
  
-    @api.marshal_list_with(place_response_model)
+    @api.marshal_list_with(place_list_model)
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
