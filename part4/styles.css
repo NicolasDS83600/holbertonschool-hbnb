@@ -1,0 +1,699 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Pacifico&display=swap');
+
+:root {
+    --ocean-deep:    #0a2342;
+    --ocean-mid:     #0e4d7a;
+    --ocean-light:   #1a7fad;
+    --ocean-surface: #29b6d8;
+    --ocean-foam:    #7fe8f5;
+    --ocean-sand:    #f0e6c8;
+    --coral:         #ff6b6b;
+    --coral-dark:    #e05555;
+    --seaweed:       #2ecc71;
+    --gold:          #ffd166;
+    --white:         #ffffff;
+    --text-dark:     #0a2342;
+    --text-light:    #e8f6fa;
+    --card-bg:       rgba(255,255,255,0.92);
+    --shadow:        0 4px 20px rgba(10,35,66,0.18);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-dark);
+    background: linear-gradient(180deg,
+        var(--ocean-deep) 0%,
+        var(--ocean-mid)  40%,
+        var(--ocean-light) 75%,
+        var(--ocean-surface) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before,
+.bubbles-layer-2,
+.bubbles-layer-3 {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.28) 4px, transparent 4px),
+        radial-gradient(circle, rgba(255,255,255,0.18) 7px, transparent 7px),
+        radial-gradient(circle, rgba(255,255,255,0.22) 3px, transparent 3px),
+        radial-gradient(circle, rgba(255,255,255,0.20) 5px, transparent 5px),
+        radial-gradient(circle, rgba(255,255,255,0.14) 8px, transparent 8px),
+        radial-gradient(circle, rgba(255,255,255,0.24) 4px, transparent 4px);
+    background-size:
+        200px 300px, 350px 400px, 150px 250px,
+        280px 350px, 120px 200px, 400px 450px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::before {
+    background-position: 30px 80px, 100px 200px, 180px 50px, 250px 150px, 50px 300px, 320px 80px;
+    animation: bubbleRise 18s linear infinite;
+}
+
+.bubbles-layer-2 {
+    background-position: 80px 180px, 200px 50px, 310px 220px, 140px 320px, 380px 100px, 60px 400px;
+    animation: bubbleRise 18s linear infinite;
+    animation-delay: -6s;
+}
+
+.bubbles-layer-3 {
+    background-position: 160px 30px, 280px 260px, 70px 140px, 350px 380px, 220px 240px, 130px 500px;
+    animation: bubbleRise 18s linear infinite;
+    animation-delay: -12s;
+}
+
+@keyframes bubbleRise {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-100vh); }
+}
+
+header {
+    background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.4);
+    position: relative;
+    z-index: 10;
+    border-bottom: 3px solid var(--ocean-surface);
+}
+
+header .logo {
+    width: 110px;
+    filter: brightness(1.4) drop-shadow(0 2px 10px rgba(41,182,216,0.9));
+    transition: transform 0.3s;
+}
+
+header .logo:hover { transform: scale(1.05); }
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+
+nav a:hover { background: rgba(255,255,255,0.22); }
+
+.user-info {
+    color: var(--ocean-foam);
+    font-size: 0.88rem;
+    font-weight: 700;
+    background: rgba(255,255,255,0.12);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+.login-button {
+    background: var(--ocean-surface);
+    color: var(--white) !important;
+    padding: 0.45rem 1.1rem;
+    border-radius: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 2px 10px rgba(41,182,216,0.4);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.login-button:hover {
+    background: var(--ocean-foam);
+    color: var(--ocean-deep) !important;
+    transform: translateY(-1px);
+}
+
+.btn-mode-switch {
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-mode-switch:hover { background: rgba(255,255,255,0.28); }
+
+.wave-separator {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    position: relative;
+    z-index: 5;
+}
+
+main::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 60px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60' preserveAspectRatio='none'%3E%3Cpath d='M0,30 C200,60 400,0 600,30 C800,60 1000,0 1200,30 L1200,0 L0,0 Z' fill='%230e4d7a'/%3E%3C/svg%3E") no-repeat center top;
+    background-size: 100% 100%;
+    margin-bottom: 1rem;
+}
+
+main {
+    flex: 1;
+    padding: 0 2rem 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+#filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 30px;
+    padding: 0.6rem 1.5rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+#filter label {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+#filter select {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--ocean-foam);
+    border-radius: 20px;
+    background: var(--ocean-deep);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#places-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+.place-card {
+    background: var(--card-bg);
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 280px;
+    box-shadow: var(--shadow), 0 0 0 2px rgba(41,182,216,0.15);
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+}
+
+.place-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--ocean-surface), var(--ocean-foam));
+    border-radius: 10px 10px 0 0;
+}
+
+.place-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(10,35,66,0.25), 0 0 0 2px var(--ocean-surface);
+}
+
+.place-card h3 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    color: var(--ocean-deep);
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
+    margin-top: 0.3rem;
+}
+
+.place-card p {
+    color: var(--ocean-mid);
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    font-size: 0.95rem;
+}
+
+.details-button {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--ocean-surface), var(--ocean-light));
+    color: var(--white);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.details-button:hover { opacity: 0.88; transform: scale(1.03); }
+
+.place-details {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.place-info h2 {
+    font-family: 'Pacifico', cursive;
+    color: var(--ocean-deep);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.place-info p {
+    margin-bottom: 0.6rem;
+    color: var(--text-dark);
+    font-size: 0.97rem;
+    line-height: 1.6;
+}
+
+#reviews h2, #reviews h3, #reviews p.reviews-title {
+    color: var(--white);
+    margin-bottom: 0.75rem;
+}
+
+.review-card {
+    background: var(--card-bg);
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.review-card::before {
+    content: '🐚';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 1.1rem;
+    opacity: 0.5;
+}
+
+.review-card p { margin-bottom: 0.3rem; }
+
+#reviews > h2, #reviews > h3 {
+    color: var(--white);
+    margin-bottom: 0.75rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+form h2 {
+    font-family: 'Pacifico', cursive;
+    color: var(--ocean-deep);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+}
+
+form label {
+    font-weight: 700;
+    color: var(--ocean-mid);
+    font-size: 0.9rem;
+}
+
+form input,
+form textarea,
+form select {
+    padding: 0.6rem 0.9rem;
+    border: 1.5px solid var(--ocean-foam);
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #f7fdff;
+    color: var(--text-dark);
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    border-color: var(--ocean-surface);
+    box-shadow: 0 0 0 3px rgba(41,182,216,0.2);
+}
+
+form textarea { min-height: 100px; resize: vertical; }
+
+form button[type="submit"],
+form button {
+    background: linear-gradient(135deg, var(--ocean-surface), var(--ocean-light));
+    color: var(--white);
+    border: none;
+    padding: 0.65rem 1.5rem;
+    border-radius: 25px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+form button:hover { opacity: 0.88; transform: translateY(-1px); }
+
+#admin-panel {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--white);
+}
+
+.admin-panel-header { margin-bottom: 1rem; }
+.admin-panel-title { font-size: 1.3rem; color: var(--white); }
+
+.admin-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.tab-btn.active,
+.tab-btn:hover { background: var(--ocean-surface); }
+
+.tab-content { display: none; }
+.tab-content.active { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+.admin-form-card,
+.admin-list-panel {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    flex: 1;
+    min-width: 260px;
+}
+
+.admin-form-card h3,
+.admin-list-panel h3 {
+    color: var(--ocean-foam);
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.form-field { margin-bottom: 0.75rem; }
+.form-field label { display: block; font-size: 0.82rem; color: var(--ocean-foam); margin-bottom: 0.25rem; font-weight: 600; }
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    padding: 0.45rem;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.12);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+    color: rgba(255,255,255,0.65);
+}
+
+.form-field-row { display: flex; gap: 0.75rem; }
+.form-field-row .form-field { flex: 1; }
+
+.form-field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--ocean-foam);
+    font-size: 0.88rem;
+}
+
+.field-hint { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+.btn-submit-form {
+    background: var(--ocean-surface);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-submit-form:hover { background: var(--ocean-foam); color: var(--ocean-deep); }
+
+.admin-list-scroll { max-height: 220px; overflow-y: auto; }
+.admin-list-empty { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+
+.admin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    gap: 0.5rem;
+}
+
+.admin-item-name { color: var(--white); font-weight: 600; font-size: 0.9rem; }
+.admin-item-sub  { color: rgba(255,255,255,0.6); font-size: 0.78rem; display: block; }
+.admin-item-info { display: flex; flex-direction: column; }
+
+.btn-action {
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+}
+
+.btn-action-delete { background: rgba(255,80,80,0.35); }
+.btn-action-delete:hover { background: var(--coral); }
+.btn-action-view:hover { background: var(--ocean-surface); }
+
+.amenity-checklist {
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 0.5rem;
+    max-height: 140px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.1);
+}
+
+.edit-place-panel {
+    background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.edit-place-panel h3 {
+    color: var(--ocean-foam);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.edit-place-panel .form-field label {
+    color: var(--ocean-foam);
+}
+
+.edit-place-panel .form-field input,
+.edit-place-panel .form-field textarea,
+.edit-place-panel .form-field select {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--white);
+}
+
+.edit-place-panel .form-field input::placeholder,
+.edit-place-panel .form-field textarea::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.edit-place-panel .amenity-checklist {
+    background: rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    max-height: 130px;
+}
+
+.edit-place-panel .amenity-checklist label {
+    color: var(--white);
+    font-size: 0.88rem;
+}
+
+.edit-place-panel .btn-cancel {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--white);
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+}
+
+.edit-place-panel .btn-cancel:hover {
+    background: rgba(255,255,255,0.22);
+}
+.btn-edit {
+    background: none;
+    border: 1px solid var(--ocean-surface);
+    color: var(--ocean-mid);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-family: 'Nunito', sans-serif;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+}
+
+.btn-edit:hover { background: var(--ocean-foam); }
+
+.btn-delete {
+    background: none;
+    border: 1px solid var(--coral);
+    color: var(--coral-dark);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-family: 'Nunito', sans-serif;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+}
+
+.btn-delete:hover { background: #ffe0e0; }
+
+.btn-cancel {
+    background: none;
+    border: 1px solid #ccc;
+    color: #777;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+}
+
+.form-actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+
+.review-edit-form textarea { width: 100%; min-height: 70px; margin-bottom: 0.4rem; border: 1px solid #ddd; border-radius: 8px; padding: 0.4rem; font-family: 'Nunito', sans-serif; }
+.review-edit-form select   { border: 1px solid #ddd; border-radius: 8px; padding: 0.4rem; margin-bottom: 0.4rem; }
+.review-actions { display: flex; gap: 0.4rem; margin-top: 0.4rem; }
+
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--ocean-deep);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+    border: 1px solid var(--ocean-surface);
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.toast-error { background: var(--coral-dark); border-color: var(--coral); }
+
+footer {
+    background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
+    color: var(--ocean-foam);
+    text-align: center;
+    padding: 1.1rem;
+    border-top: 3px solid var(--ocean-surface);
+    position: relative;
+    z-index: 10;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    header { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+    main { padding: 0 1rem 1.5rem; }
+    .place-card { width: 90%; }
+    .tab-content.active { flex-direction: column; }
+}

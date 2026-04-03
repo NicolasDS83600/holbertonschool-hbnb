@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Review</title>
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bubbles-layer-2" aria-hidden="true"></div>
+    <div class="bubbles-layer-3" aria-hidden="true"></div>
+    <header>
+        <a href="index.html"><img src="images/logo.png" class="logo" alt="HBnB logo"></a>
+        <nav>
+            <a href="index.html">Home</a>
+            <span id="user-info" class="user-info" style="display:none;"></span>
+            <a href="login.html" id="login-link" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2 id="place-name">Add a Review</h2>
+        <form id="review-form">
+            <label for="review">Your Review:</label>
+            <textarea id="review" name="review" required></textarea>
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating" required>
+                <option value="">-- Select a rating --</option>
+                <option value="1">1 - Poor</option>
+                <option value="2">2 - Fair</option>
+                <option value="3">3 - Good</option>
+                <option value="4">4 - Very Good</option>
+                <option value="5">5 - Excellent</option>
+            </select>
+            <button type="submit">Submit Review</button>
+        </form>
+    </main>
+
+    <footer><p>&copy; 2024 HBnB. All rights reserved.</p></footer>
+    <script src="scripts.js"></script>
+</body>
+</html>

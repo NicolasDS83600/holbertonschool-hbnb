@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB – Place Details</title>
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bubbles-layer-2" aria-hidden="true"></div>
+    <div class="bubbles-layer-3" aria-hidden="true"></div>
+    <header>
+        <a href="index.html"><img src="images/logo.png" class="logo" alt="HBnB logo"></a>
+        <nav>
+            <a href="index.html">Home</a>
+            <span id="user-info" class="user-info" style="display:none;"></span>
+            <a href="login.html" id="login-link" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="place-details" class="place-details"></div>
+        <div id="reviews"></div>
+        <div id="add-review">
+            <form id="review-form" class="form">
+                <h2>Add a Review</h2>
+                <label for="review-text">Review:</label>
+                <textarea id="review-text" name="review-text" required></textarea>
+                <label for="rating">Rating:</label>
+                <select id="rating" name="rating" required>
+                    <option value="">-- Select a rating --</option>
+                    <option value="1">1 - Poor</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="3">3 - Good</option>
+                    <option value="4">4 - Very Good</option>
+                    <option value="5">5 - Excellent</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </main>
+
+    <footer><p>&copy; 2024 HBnB. All rights reserved.</p></footer>
+
+    <!-- Templates -->
+
+    <template id="tpl-place-details">
+        <div class="place-info">
+            <h2 data-field="title"></h2>
+            <p><strong>Host:</strong> <span data-field="owner"></span></p>
+            <p><strong>Price:</strong> <span data-field="price"></span></p>
+            <p><strong>Description:</strong> <span data-field="description"></span></p>
+            <p><strong>Amenities:</strong> <span data-field="amenities"></span></p>
+            <button class="btn-edit" id="toggle-edit-place" style="display:none;">&#9999;&#65039; Edit place</button>
+            <div id="edit-place-form" class="edit-place-panel" style="display:none;">
+                <h3>Edit place</h3>
+                <div class="form-field">
+                    <label for="ep-title">Title</label>
+                    <input id="ep-title">
+                </div>
+                <div class="form-field">
+                    <label for="ep-desc">Description</label>
+                    <textarea id="ep-desc"></textarea>
+                </div>
+                <div class="form-field">
+                    <label for="ep-price">Price per night ($)</label>
+                    <input id="ep-price" type="number">
+                </div>
+                <div class="form-field">
+                    <label>Amenities</label>
+                    <div class="amenity-checklist" id="ep-amenities-list"></div>
+                </div>
+                <div class="form-actions">
+                    <button id="btn-save-place" class="btn-submit-form">Save</button>
+                    <button id="btn-cancel-place" class="btn-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-review-card">
+        <div class="review-card">
+            <p>
+                <strong data-field="user"></strong>
+                &#8212; <span data-field="rating"></span>
+            </p>
+            <p data-field="text"></p>
+            <div class="review-edit-form" style="display:none;">
+                <textarea data-field="edit-text"></textarea>
+                <select data-field="edit-rating"></select>
+                <div class="form-actions">
+                    <button class="btn-save-review">Save</button>
+                    <button class="btn-cancel-review btn-cancel">Cancel</button>
+                </div>
+            </div>
+            <div class="review-actions">
+                <button class="btn-edit btn-edit-review" style="display:none;">&#9999;&#65039; Edit</button>
+                <button class="btn-delete btn-delete-review" style="display:none;">&#128465;&#65039; Delete</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
